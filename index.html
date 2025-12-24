@@ -31,13 +31,34 @@
             max-width: 297mm; 
             min-height: 210mm;
         }
+
+        /* Header ใหม่: โลโก้ + ชื่อเอกสาร + บรรทัดคณะกรรมการ */
+        .doc-header {
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            margin-bottom: 1.5rem;
+        }
+        .header-logo {
+            width: 84px;      /* ปรับขนาดโลโก้ได้ */
+            height: auto;
+            margin-bottom: 0.75rem;
+        }
+
         h1 {
             font-size: 24px;
             font-weight: bold;
             text-align: center;
-            margin-bottom: 1.5rem;
+            margin-bottom: 0;
             color: #111827;
         }
+        .committee-line {
+            margin-top: 0.5rem; /* เคาะลงมา 1 บรรทัด */
+            font-size: 14px;
+            color: #374151;
+            text-align: center;
+        }
+
         h2 {
             font-size: 19px;
             font-weight: bold;
@@ -96,19 +117,22 @@
 </head>
 <body>
 
-    <div class="max-w-[297mm] mx-auto mt-4 flex justify-end gap-2 no-print px-4">
-        <!-- Word Export Button -->
-        <button onclick="exportToWord()" class="bg-green-600 hover:bg-green-700 text-white font-bold py-2 px-4 rounded-lg flex items-center gap-2 transition shadow-md">
-            <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" viewBox="0 0 16 16">
-                <path d="M5.5 7a.5.5 0 0 0 0 1h5a.5.5 0 0 0 0-1h-5zM5 9.5a.5.5 0 0 1 .5-.5h5a.5.5 0 0 1 0 1h-5a.5.5 0 0 1-.5-.5zm0 2a.5.5 0 0 1 .5-.5h2a.5.5 0 0 1 0 1h-2a.5.5 0 0 1-.5-.5z"/>
-                <path d="M9.5 0H4a2 2 0 0 0-2 2v12a2 2 0 0 0 2 2h8a2 2 0 0 0 2-2V4.5L9.5 0zm0 1v2A1.5 1.5 0 0 0 11 4.5h2V14a1 1 0 0 1-1 1H4a1 1 0 0 1-1-1V2a1 1 0 0 1 1-1h5.5z"/>
-            </svg>
-            ส่งออกเป็น Word
-        </button>
-    </div>
+    <!-- เอาปุ่มส่งออก Word ออกแล้ว -->
 
     <div class="report-paper" id="report-content">
-        <h1>เอกสารแนบท้าย: รายละเอียด Trigger Tool: การสั่งใช้ Vitamin K ในผู้ป่วย Warfarin</h1>
+
+        <!-- Header ใหม่ (โลโก้ + ชื่อเอกสาร + บรรทัดคณะกรรมการ) -->
+        <div class="doc-header">
+            <img
+                src="https://mfu.ac.th/fileadmin/_processed_/6/7/csm_logo_mfu_3d_colour_15e5a7a50f.png"
+                alt="Mae Fah Luang University Logo"
+                class="header-logo"
+            >
+            <h1>เอกสารแนบท้าย: รายละเอียด Trigger Tool: การสั่งใช้ Vitamin K ในผู้ป่วย Warfarin</h1>
+            <div class="committee-line">
+                คณะกรรมการเภสัชกรรมและการบำบัด โรงพยาบาลศูนย์การแพทย์มหาวิทยาลัยแม่ฟ้าฟลวง
+            </div>
+        </div>
 
         <!-- Dashboard Section -->
         <div class="mb-8 p-4 bg-white border border-gray-200 rounded-lg shadow-sm" id="dashboard-section">
@@ -278,7 +302,6 @@
                 if (groupName) groupHtml = `<span class="font-bold text-blue-800">${groupName}</span><br><span class="text-xs text-gray-500">(รวม ${groupCounts[groupName]} ราย)</span>`;
                 
                 let details = row[2].replace("เสียชีวิต", "<span class='highlight-danger'>เสียชีวิต</span>");
-                // Apply HN masking to the name column
                 let maskedName = maskHN(row[1]);
 
                 tr.innerHTML = `
@@ -296,7 +319,6 @@
             const tbody = document.getElementById('table2-body');
             recurrentData.forEach(row => {
                 const tr = document.createElement('tr');
-                // Apply HN masking to the name column
                 let maskedName = maskHN(row[0]);
                 
                 tr.innerHTML = `
@@ -307,18 +329,6 @@
                 `;
                 tbody.appendChild(tr);
             });
-        }
-        
-        function exportToWord() {
-            const reportClone = document.getElementById('report-content').cloneNode(true);
-            const dashboard = reportClone.querySelector('#dashboard-section');
-            if (dashboard) dashboard.remove();
-            const htmlContent = `<html><head><meta charset='utf-8'><style>body { font-family: 'Sarabun', 'Arial'; font-size: 14pt; } table { width: 100%; border-collapse: collapse; } td, th { border: 1px solid black; padding: 5px; text-align: left; } th { background-color: #f3f4f6; }</style></head><body>${reportClone.innerHTML}</body></html>`;
-            const blob = new Blob(['\ufeff', htmlContent], { type: 'application/msword' });
-            const url = URL.createObjectURL(blob);
-            const link = document.createElement('a');
-            link.href = url; link.download = 'Warfarin_Trigger_Tool_Report.doc';
-            document.body.appendChild(link); link.click(); document.body.removeChild(link);
         }
 
         renderTable1();
