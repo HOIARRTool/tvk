@@ -4,12 +4,12 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Trigger Tool: การสั่งใช้ Vitamin K ในผู้ป่วย Warfarin</title>
-    
+
     <!-- Google Fonts: Sarabun -->
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
     <link href="https://fonts.googleapis.com/css2?family=Sarabun:ital,wght@0,300;0,400;0,500;0,600;0,700;1,400&display=swap" rel="stylesheet">
-    
+
     <!-- Tailwind CSS -->
     <script src="https://cdn.tailwindcss.com"></script>
 
@@ -28,11 +28,11 @@
             box-shadow: 0 10px 15px -3px rgba(0, 0, 0, 0.1);
             padding: 2.5rem;
             margin: 2rem auto;
-            max-width: 297mm; 
+            max-width: 297mm;
             min-height: 210mm;
         }
 
-        /* Header ใหม่: โลโก้ + ชื่อเอกสาร + บรรทัดคณะกรรมการ */
+        /* Header: โลโก้ + ชื่อเอกสาร + บรรทัดคณะกรรมการ */
         .doc-header {
             display: flex;
             flex-direction: column;
@@ -40,11 +40,10 @@
             margin-bottom: 1.5rem;
         }
         .header-logo {
-            width: 84px;      /* ปรับขนาดโลโก้ได้ */
+            width: 84px;
             height: auto;
             margin-bottom: 0.75rem;
         }
-
         h1 {
             font-size: 24px;
             font-weight: bold;
@@ -68,6 +67,7 @@
             border-left: 5px solid #3b82f6;
             padding-left: 1rem;
         }
+
         table {
             width: 100%;
             border-collapse: collapse;
@@ -103,10 +103,108 @@
             color: white;
             font-size: 12px;
         }
-        .sev-E { background-color: #f97316; } 
-        .sev-F { background-color: #ea580c; } 
-        .sev-I { background-color: #991b1b; } 
-        
+        .sev-E { background-color: #f97316; }
+        .sev-F { background-color: #ea580c; }
+        .sev-I { background-color: #991b1b; }
+
+        /* ===== Executive Summary Table (สวย/เรียบร้อย) ===== */
+        .exec-title {
+            text-align: center;
+            font-size: 22px;
+            font-weight: 800;
+            color: #1e3a8a;
+            margin-top: 2.5rem;
+            margin-bottom: 0.75rem;
+        }
+        .exec-divider {
+            border: 0;
+            border-top: 1px solid #e5e7eb;
+            margin: 0.5rem 0 1.25rem;
+        }
+
+        .summary-table {
+            width: 100%;
+            border-collapse: collapse;
+            font-size: 14px;
+            margin-top: 0.5rem;
+            border-radius: 12px;
+            overflow: hidden;
+        }
+        .summary-table th, .summary-table td {
+            border: 1px solid #d1d5db;
+            padding: 12px 12px;
+            vertical-align: top;
+        }
+        .summary-table thead th {
+            background: linear-gradient(180deg, #1d4ed8 0%, #1e40af 100%);
+            color: #ffffff;
+            font-weight: 800;
+        }
+        .summary-table .col-priority { width: 18%; }
+        .summary-table .col-goal { width: 28%; }
+        .summary-table .col-actions { width: 54%; }
+
+        .summary-table tbody tr:nth-child(even) td { background: #f8fafc; }
+
+        .priority-badge {
+            display: inline-flex;
+            align-items: center;
+            justify-content: center;
+            width: 28px;
+            height: 28px;
+            border-radius: 999px;
+            background: #1d4ed8;
+            color: #fff;
+            font-weight: 800;
+            margin-right: 8px;
+            font-size: 13px;
+        }
+        .priority-label {
+            display: inline-block;
+            padding: 3px 10px;
+            border-radius: 999px;
+            background: #e5e7eb;
+            color: #111827;
+            font-size: 12px;
+            font-weight: 800;
+            margin-top: 6px;
+        }
+        .priority-name {
+            font-weight: 800;
+            color: #0f172a;
+            margin-top: 6px;
+            line-height: 1.35;
+        }
+        .priority-sub {
+            color: #334155;
+            font-size: 12.5px;
+            margin-top: 4px;
+            line-height: 1.5;
+        }
+
+        .summary-table ul {
+            margin: 6px 0 0 18px;
+            list-style: disc;
+            line-height: 1.7;
+            color: #0f172a;
+        }
+        .summary-table li { margin-bottom: 6px; }
+
+        .action-head {
+            font-weight: 800;
+            color: #1e3a8a;
+            margin-top: 2px;
+        }
+        .quote {
+            background: #eff6ff;
+            border-left: 4px solid #3b82f6;
+            padding: 10px 12px;
+            border-radius: 10px;
+            margin-top: 8px;
+            color: #0f172a;
+            line-height: 1.65;
+        }
+
         @media print {
             @page { size: landscape; margin: 1cm; }
             body { background: none; }
@@ -115,13 +213,11 @@
         }
     </style>
 </head>
+
 <body>
-
-    <!-- เอาปุ่มส่งออก Word ออกแล้ว -->
-
     <div class="report-paper" id="report-content">
 
-        <!-- Header ใหม่ (โลโก้ + ชื่อเอกสาร + บรรทัดคณะกรรมการ) -->
+        <!-- Header -->
         <div class="doc-header">
             <img
                 src="https://mfu.ac.th/fileadmin/_processed_/6/7/csm_logo_mfu_3d_colour_15e5a7a50f.png"
@@ -161,9 +257,7 @@
                     <th style="width: 22%;">แนวทางป้องกัน</th>
                 </tr>
             </thead>
-            <tbody id="table1-body">
-                <!-- Data populated via JS -->
-            </tbody>
+            <tbody id="table1-body"></tbody>
         </table>
 
         <!-- Table 2 -->
@@ -177,90 +271,135 @@
                     <th style="width: 25%;">ข้อเสนอแนะเชิงระบบ</th>
                 </tr>
             </thead>
-            <tbody id="table2-body">
-                <!-- Data populated via JS -->
-            </tbody>
+            <tbody id="table2-body"></tbody>
         </table>
 
         <div class="mt-8 text-sm text-gray-500 border-t pt-4">
             <strong>หมายเหตุระดับความรุนแรง (NCC MERP):</strong><br>
-            A-D: ไม่เกิดอันตรายถึงขั้นต้องรักษาพยาบาลเพิ่ม | 
-            <strong>E:</strong> เกิดอันตรายชั่วคราวและต้องแก้ไขปฐมพยาบาล (รวมถึงการให้ Vit K) | 
-            <strong>F:</strong> เกิดอันตรายชั่วคราวและต้องนอนโรงพยาบาลหรือยืดเวลานานขึ้น | 
+            A-D: ไม่เกิดอันตรายถึงขั้นต้องรักษาพยาบาลเพิ่ม |
+            <strong>E:</strong> เกิดอันตรายชั่วคราวและต้องแก้ไขปฐมพยาบาล (รวมถึงการให้ Vit K) |
+            <strong>F:</strong> เกิดอันตรายชั่วคราวและต้องนอนโรงพยาบาลหรือยืดเวลานานขึ้น |
             <strong>I:</strong> เสียชีวิต
         </div>
-        <!-- Executive Summary Section -->
-        <section class="summary-section mt-10">
-        <h2>บทสรุปของผู้บริหาร</h2>
-    
-        <h3>กลุ่มที่ 1: Priority 1 - "The Must" (System Safeguards)</h3>
-        <p>
-            กลุ่มนี้คือสิ่งที่ "ต้องทำทันที" เพราะเป็นการแก้ไขที่ระบบ (System-level)
-            เพื่อป้องกันความผิดพลาดก่อนจะถึงตัวผู้ป่วย (Barrier) โดยไม่ต้องรอให้คนระมัดระวังเอง
-        </p>
-    
-        <div class="summary-box">
-            <p><strong>IT Hard-lock &amp; Alert System:</strong></p>
-            <ul>
-                <li><strong>Amiodarone/High-risk Drugs:</strong> บล็อกการสั่งยา Amiodarone หรือยาที่มี Interaction รุนแรง หากไม่มีผล INR ภายในช่วงเวลาที่กำหนด หรือค่า INR &gt; 3</li>
-                <li><strong>DDI Real-time Alert:</strong> ระบบแจ้งเตือนเมื่อมีการสั่งยา Augmentin, Macrolides หรือยาฆ่าเชื้อร่วมกับ Warfarin</li>
-            </ul>
-    
-            <p class="mt-3"><strong>Standardized Order Sets (Auto-Hold):</strong></p>
-            <ul>
-                <li><strong>Gas &amp; Brake Prevention:</strong> เมื่อมีการคีย์สั่ง Vitamin K ระบบต้อง "บังคับ" หรือ "Auto-Hold" ยา Warfarin ทันที เพื่อป้องกันการให้ยาสวนทางกัน</li>
-            </ul>
-        </div>
-    
-        <h3>กลุ่มที่ 2: Priority 2 - Clinical Protocols (Process Standardisation)</h3>
-        <p>กลุ่มนี้คือการสร้าง "มาตรฐานการรักษา" เพื่อลดความแปรปรวนในการตัดสินใจของเจ้าหน้าที่</p>
-    
-        <div class="summary-box">
-            <p><strong>High-Risk Protocols:</strong></p>
-            <ul>
-                <li><strong>Sepsis Protocol:</strong> กำหนดให้เจาะ INR ถี่ขึ้นทันทีเมื่อผู้ป่วยมีภาวะติดเชื้อ (Sepsis) เพราะการอักเสบทำให้ฤทธิ์ยาแรงขึ้น</li>
-                <li><strong>Geriatric Protocol:</strong> ผู้ป่วยอายุ &gt; 80 ปี หรือน้ำหนักน้อย ต้องเริ่มยาแบบ "Start Low, Go Slow" เท่านั้น</li>
-            </ul>
-    
-            <p class="mt-3"><strong>Policy "No INR, No Needle":</strong></p>
-            <ul>
-                <li>กำหนดเป็นนโยบายความปลอดภัย ห้ามทำหัตถการแทงเข็ม (ฉีดเข้าข้อ/ฝังเข็ม/นวดรุนแรง) หากไม่ทราบค่าล่าสุดของผู้ป่วย</li>
-            </ul>
-        </div>
-    
-        <h3>กลุ่มที่ 3: Priority 3 - Diagnostic Support (Error Reduction)</h3>
-        <p>กลุ่มนี้เน้นไปที่การลดความคลาดเคลื่อนในการวินิจฉัย (Diagnostic Error)</p>
-    
-        <div class="summary-box">
-            <p><strong>Clinical Guidelines for Warfarin Patients:</strong></p>
-            <ul>
-                <li>
-                    ปรับวิธีคิด (Mindset) ของทีม ER/GP:
-                    "หากผู้ป่วยกิน Warfarin มาด้วยอาการปวดท้องหรือขาบวม ให้สงสัย Hematoma (เลือดออกภายใน) ก่อน Cellulitis หรือท้องเสียเสมอ"
-                    จนกว่าจะพิสูจน์ได้ว่าเป็นอย่างอื่น
-                </li>
-            </ul>
-        </div>
-    
-        <h3>กลุ่มที่ 4: Priority 4 - Patient Tools &amp; Education (Human Factors)</h3>
-        <p>
-            กลุ่มนี้มีความสำคัญมาก แต่ให้ผลลัพธ์ผันแปรตามความร่วมมือของบุคคล
-            จึงควรทำควบคู่ไปกับกลุ่มข้างบน
-        </p>
-    
-        <div class="summary-box">
-            <p><strong>Visual Aids &amp; Tools:</strong></p>
-            <ul>
-                <li>ฉลากยารูปภาพเม็ดยาจริง และการแยกสีซองยาให้ต่างจากยาชนิดอื่นชัดเจน (โดยเฉพาะยาไทรอยด์ที่เม็ดคล้ายกัน)</li>
-                <li>การใช้ตลับแบ่งยา (Pill Box) และตาราง Check-list สำหรับญาติ</li>
-            </ul>
-    
-            <p class="mt-3"><strong>Teach-back Technique:</strong></p>
-            <ul>
-                <li>ไม่ใช่แค่การสอน แต่ต้องให้ผู้ป่วย/ญาติ "สาธิต" วิธีการกินยาให้ดูทุกครั้งที่มาตรวจ</li>
-            </ul>
-        </div>
-    </section>
+
+        <!-- ===== Executive Summary (Table) ===== -->
+        <div class="exec-title">บทสรุปของผู้บริหาร</div>
+        <hr class="exec-divider">
+
+        <table class="summary-table">
+            <thead>
+                <tr>
+                    <th class="col-priority">กลุ่ม / Priority</th>
+                    <th class="col-goal">แนวคิด / เป้าหมาย</th>
+                    <th class="col-actions">มาตรการหลัก (Actionable)</th>
+                </tr>
+            </thead>
+            <tbody>
+                <!-- Group 1 -->
+                <tr>
+                    <td>
+                        <div>
+                            <span class="priority-badge">1</span>
+                            <span class="priority-name">กลุ่มที่ 1</span>
+                        </div>
+                        <div class="priority-label">Priority 1</div>
+                        <div class="priority-sub">“The Must” (System Safeguards)</div>
+                    </td>
+                    <td>
+                        ต้องทำทันที เพราะเป็นการแก้ไขระดับระบบ (System-level) เพื่อวาง Barrier ป้องกันความผิดพลาดก่อนถึงผู้ป่วย
+                        โดยไม่ต้องรอพึ่งความระมัดระวังของบุคลากร
+                    </td>
+                    <td>
+                        <div class="action-head">IT Hard-lock &amp; Alert System</div>
+                        <ul>
+                            <li><strong>Amiodarone/High-risk Drugs:</strong> บล็อกการสั่ง Amiodarone หรือยาที่มี Interaction รุนแรง หากไม่มีผล INR ภายในช่วงเวลาที่กำหนด หรือค่า INR &gt; 3</li>
+                            <li><strong>DDI Real-time Alert:</strong> แจ้งเตือนเมื่อมีการสั่ง Augmentin, Macrolides หรือยาฆ่าเชื้อร่วมกับ Warfarin</li>
+                        </ul>
+
+                        <div class="action-head" style="margin-top:10px;">Standardized Order Sets (Auto-Hold)</div>
+                        <ul>
+                            <li><strong>Gas &amp; Brake Prevention:</strong> เมื่อคีย์สั่ง Vitamin K ระบบต้อง “Auto-Hold” Warfarin ทันที เพื่อป้องกันการสั่งยาสวนทางกัน</li>
+                        </ul>
+                    </td>
+                </tr>
+
+                <!-- Group 2 -->
+                <tr>
+                    <td>
+                        <div>
+                            <span class="priority-badge">2</span>
+                            <span class="priority-name">กลุ่มที่ 2</span>
+                        </div>
+                        <div class="priority-label">Priority 2</div>
+                        <div class="priority-sub">Clinical Protocols (Process Standardisation)</div>
+                    </td>
+                    <td>
+                        สร้าง “มาตรฐานการรักษา” เพื่อลดความแปรปรวนในการตัดสินใจ และลดความผิดพลาดจากความต่างของวิธีปฏิบัติ
+                    </td>
+                    <td>
+                        <div class="action-head">High-Risk Protocols</div>
+                        <ul>
+                            <li><strong>Sepsis Protocol:</strong> กำหนดให้เจาะ INR ถี่ขึ้นทันทีเมื่อมี Sepsis เพราะการอักเสบทำให้ฤทธิ์ยาแรงขึ้น</li>
+                            <li><strong>Geriatric Protocol:</strong> อายุ &gt; 80 ปี หรือน้ำหนักน้อย ต้องเริ่มแบบ “Start Low, Go Slow” เท่านั้น</li>
+                        </ul>
+
+                        <div class="action-head" style="margin-top:10px;">Policy “No INR, No Needle”</div>
+                        <ul>
+                            <li>ห้ามทำหัตถการแทงเข็ม (ฉีดเข้าข้อ/ฝังเข็ม/นวดรุนแรง) หากไม่ทราบค่า INR ล่าสุด</li>
+                        </ul>
+                    </td>
+                </tr>
+
+                <!-- Group 3 -->
+                <tr>
+                    <td>
+                        <div>
+                            <span class="priority-badge">3</span>
+                            <span class="priority-name">กลุ่มที่ 3</span>
+                        </div>
+                        <div class="priority-label">Priority 3</div>
+                        <div class="priority-sub">Diagnostic Support (Error Reduction)</div>
+                    </td>
+                    <td>
+                        ลดความคลาดเคลื่อนในการวินิจฉัย (Diagnostic Error) โดยกำหนดแนวคิด/แนวปฏิบัติให้ทีม ER/GP ใช้ร่วมกัน
+                    </td>
+                    <td>
+                        <div class="action-head">Clinical Guidelines for Warfarin Patients</div>
+                        <div class="quote">
+                            ปรับ Mindset ทีม ER/GP: “ผู้ป่วยกิน Warfarin + ปวดท้อง/ขาบวม → ให้สงสัย Hematoma (เลือดออกภายใน) ก่อน Cellulitis หรือท้องเสียเสมอ”
+                            จนกว่าจะพิสูจน์ได้ว่าเป็นอย่างอื่น
+                        </div>
+                    </td>
+                </tr>
+
+                <!-- Group 4 -->
+                <tr>
+                    <td>
+                        <div>
+                            <span class="priority-badge">4</span>
+                            <span class="priority-name">กลุ่มที่ 4</span>
+                        </div>
+                        <div class="priority-label">Priority 4</div>
+                        <div class="priority-sub">Patient Tools &amp; Education (Human Factors)</div>
+                    </td>
+                    <td>
+                        สำคัญมากแต่ผลลัพธ์ผันแปรตามความร่วมมือของบุคคล จึงควรทำ “ควบคู่” กับมาตรการเชิงระบบข้างต้น
+                    </td>
+                    <td>
+                        <div class="action-head">Visual Aids &amp; Tools</div>
+                        <ul>
+                            <li>ฉลากยารูปภาพเม็ดยาจริง + แยกสีซองยาให้ต่างจากยาอื่นชัดเจน (โดยเฉพาะยาไทรอยด์ที่เม็ดคล้ายกัน)</li>
+                            <li>ใช้ตลับแบ่งยา (Pill Box) + ตาราง Check-list สำหรับญาติ</li>
+                        </ul>
+
+                        <div class="action-head" style="margin-top:10px;">Teach-back Technique</div>
+                        <ul>
+                            <li>ไม่ใช่แค่สอน แต่ต้องให้ผู้ป่วย/ญาติ “สาธิต” วิธีการกินยาให้ดูทุกครั้งที่มาตรวจ</li>
+                        </ul>
+                    </td>
+                </tr>
+            </tbody>
+        </table>
 
     </div>
 
@@ -274,7 +413,7 @@
                 labels: ['ต.ค. 67', 'พ.ย. 67', 'ธ.ค. 67', 'ม.ค. 68', 'ก.พ. 68', 'มี.ค. 68', 'เม.ย. 68', 'พ.ค. 68', 'มิ.ย. 68', 'ก.ค. 68', 'ส.ค. 68', 'ก.ย. 68'],
                 datasets: [{
                     label: 'จำนวนเคส',
-                    data: [5, 9, 4, 10, 3, 5, 4, 6, 3, 3, 2, 1], 
+                    data: [5, 9, 4, 10, 3, 5, 4, 6, 3, 3, 2, 1],
                     backgroundColor: 'rgba(59, 130, 246, 0.6)',
                     borderColor: 'rgba(59, 130, 246, 1)',
                     borderWidth: 1,
@@ -302,7 +441,6 @@
 
         // Helper function to mask HN to show only first 2 digits + xxx
         function maskHN(text) {
-            // Regex to find "HN XXXXX" and replace with "HN XXxxx"
             return text.replace(/HN\s?(\d{2})\d+/g, 'HN $1xxx');
         }
 
@@ -368,12 +506,16 @@
         function renderTable1() {
             const tbody = document.getElementById('table1-body');
             const groupCounts = calculateGroupCounts(preventableData);
+
             preventableData.forEach(row => {
                 const tr = document.createElement('tr');
                 let groupHtml = "";
                 const groupName = row[0];
-                if (groupName) groupHtml = `<span class="font-bold text-blue-800">${groupName}</span><br><span class="text-xs text-gray-500">(รวม ${groupCounts[groupName]} ราย)</span>`;
-                
+
+                if (groupName) {
+                    groupHtml = `<span class="font-bold text-blue-800">${groupName}</span><br><span class="text-xs text-gray-500">(รวม ${groupCounts[groupName]} ราย)</span>`;
+                }
+
                 let details = row[2].replace("เสียชีวิต", "<span class='highlight-danger'>เสียชีวิต</span>");
                 let maskedName = maskHN(row[1]);
 
@@ -393,7 +535,7 @@
             recurrentData.forEach(row => {
                 const tr = document.createElement('tr');
                 let maskedName = maskHN(row[0]);
-                
+
                 tr.innerHTML = `
                     <td class="font-bold text-gray-800">${maskedName}</td>
                     <td class="text-center font-bold text-lg text-blue-600">${row[1]}</td>
