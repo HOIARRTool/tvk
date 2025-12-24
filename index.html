@@ -1,0 +1,328 @@
+<!DOCTYPE html>
+<html lang="th">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>เอกสารแนบท้าย: รายละเอียด Trigger Tool: การสั่งใช้ Vitamin K ในผู้ป่วย Warfarin</title>
+    
+    <!-- Google Fonts: Sarabun -->
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Sarabun:ital,wght@0,300;0,400;0,500;0,600;0,700;1,400&display=swap" rel="stylesheet">
+    
+    <!-- Tailwind CSS -->
+    <script src="https://cdn.tailwindcss.com"></script>
+
+    <!-- Chart.js & Datalabels Plugin -->
+    <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/chartjs-plugin-datalabels@2"></script>
+
+    <style>
+        body {
+            font-family: 'Sarabun', sans-serif;
+            background-color: #f3f4f6;
+            color: #1f2937;
+        }
+        .report-paper {
+            background: white;
+            box-shadow: 0 10px 15px -3px rgba(0, 0, 0, 0.1);
+            padding: 2.5rem;
+            margin: 2rem auto;
+            max-width: 297mm; 
+            min-height: 210mm;
+        }
+        h1 {
+            font-size: 24px;
+            font-weight: bold;
+            text-align: center;
+            margin-bottom: 1.5rem;
+            color: #111827;
+        }
+        h2 {
+            font-size: 19px;
+            font-weight: bold;
+            margin-top: 2rem;
+            margin-bottom: 1rem;
+            color: #374151;
+            border-left: 5px solid #3b82f6;
+            padding-left: 1rem;
+        }
+        table {
+            width: 100%;
+            border-collapse: collapse;
+            font-size: 14px;
+            margin-bottom: 2rem;
+        }
+        th, td {
+            border: 1px solid #d1d5db;
+            padding: 8px 10px;
+            text-align: left;
+            vertical-align: top;
+        }
+        th {
+            background-color: #f9fafb;
+            font-weight: bold;
+            color: #4b5563;
+        }
+        tr:nth-child(even) {
+            background-color: #fcfcfc;
+        }
+        .highlight-danger {
+            color: #dc2626;
+            font-weight: bold;
+        }
+        .severity-badge {
+            display: inline-block;
+            width: 26px;
+            height: 26px;
+            line-height: 26px;
+            border-radius: 50%;
+            text-align: center;
+            font-weight: bold;
+            color: white;
+            font-size: 12px;
+        }
+        .sev-E { background-color: #f97316; } 
+        .sev-F { background-color: #ea580c; } 
+        .sev-I { background-color: #991b1b; } 
+        
+        @media print {
+            @page { size: landscape; margin: 1cm; }
+            body { background: none; }
+            .report-paper { box-shadow: none; margin: 0; width: 100%; max-width: none; }
+            .no-print { display: none; }
+        }
+    </style>
+</head>
+<body>
+
+    <div class="max-w-[297mm] mx-auto mt-4 flex justify-end gap-2 no-print px-4">
+        <!-- Word Export Button -->
+        <button onclick="exportToWord()" class="bg-green-600 hover:bg-green-700 text-white font-bold py-2 px-4 rounded-lg flex items-center gap-2 transition shadow-md">
+            <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" viewBox="0 0 16 16">
+                <path d="M5.5 7a.5.5 0 0 0 0 1h5a.5.5 0 0 0 0-1h-5zM5 9.5a.5.5 0 0 1 .5-.5h5a.5.5 0 0 1 0 1h-5a.5.5 0 0 1-.5-.5zm0 2a.5.5 0 0 1 .5-.5h2a.5.5 0 0 1 0 1h-2a.5.5 0 0 1-.5-.5z"/>
+                <path d="M9.5 0H4a2 2 0 0 0-2 2v12a2 2 0 0 0 2 2h8a2 2 0 0 0 2-2V4.5L9.5 0zm0 1v2A1.5 1.5 0 0 0 11 4.5h2V14a1 1 0 0 1-1 1H4a1 1 0 0 1-1-1V2a1 1 0 0 1 1-1h5.5z"/>
+            </svg>
+            ส่งออกเป็น Word
+        </button>
+    </div>
+
+    <div class="report-paper" id="report-content">
+        <h1>เอกสารแนบท้าย: รายละเอียด Trigger Tool: การสั่งใช้ Vitamin K ในผู้ป่วย Warfarin</h1>
+
+        <!-- Dashboard Section -->
+        <div class="mb-8 p-4 bg-white border border-gray-200 rounded-lg shadow-sm" id="dashboard-section">
+            <h2 style="margin-top: 0; border: none; font-size: 17px; text-align: center; color: #4b5563; padding: 0;">
+                สรุปสถิติเหตุการณ์ Trigger Tool (รายเดือน) ประจำปีงบประมาณ 2568
+            </h2>
+            <div class="relative h-60 w-full mt-2">
+                <canvas id="vitKChart"></canvas>
+            </div>
+            <div class="mt-4 flex justify-center gap-6 text-sm text-gray-600">
+                <span>• จำนวนผู้ป่วยรวม: 44 ราย</span>
+                <span class="border-l pl-4 border-gray-300">• พบเหตุการณ์สะสม: 55 ครั้ง</span>
+                <span class="border-l pl-4 border-gray-300">• เดือนที่พบสูงสุด: มกราคม 2568 (10 ราย)</span>
+            </div>
+        </div>
+
+        <!-- Table 1 -->
+        <h2>ตารางที่ 1: รายละเอียดเหตุการณ์ที่ป้องกันได้ (Preventable Adverse Drug Events - 32 ราย)</h2>
+        <table>
+            <thead>
+                <tr>
+                    <th style="width: 20%;">กลุ่มสาเหตุ</th>
+                    <th style="width: 15%;">ชื่อ - สกุล (HN)</th>
+                    <th style="width: 35%;">รายละเอียดเหตุการณ์</th>
+                    <th style="width: 8%; text-align: center;">ความรุนแรง</th>
+                    <th style="width: 22%;">แนวทางป้องกัน</th>
+                </tr>
+            </thead>
+            <tbody id="table1-body">
+                <!-- Data populated via JS -->
+            </tbody>
+        </table>
+
+        <!-- Table 2 -->
+        <h2>ตารางที่ 2: ผู้ป่วยที่เกิดเหตุซ้ำ (Recurrent Cases - 11 ราย)</h2>
+        <table>
+            <thead>
+                <tr>
+                    <th style="width: 20%;">ผู้ป่วย</th>
+                    <th style="width: 10%; text-align: center;">จำนวนครั้ง</th>
+                    <th style="width: 45%;">ลำดับเหตุการณ์ (Timeline)</th>
+                    <th style="width: 25%;">ข้อเสนอแนะเชิงระบบ</th>
+                </tr>
+            </thead>
+            <tbody id="table2-body">
+                <!-- Data populated via JS -->
+            </tbody>
+        </table>
+
+        <div class="mt-8 text-sm text-gray-500 border-t pt-4">
+            <strong>หมายเหตุระดับความรุนแรง (NCC MERP):</strong><br>
+            A-D: ไม่เกิดอันตรายถึงขั้นต้องรักษาพยาบาลเพิ่ม | 
+            <strong>E:</strong> เกิดอันตรายชั่วคราวและต้องแก้ไขปฐมพยาบาล (รวมถึงการให้ Vit K) | 
+            <strong>F:</strong> เกิดอันตรายชั่วคราวและต้องนอนโรงพยาบาลหรือยืดเวลานานขึ้น | 
+            <strong>I:</strong> เสียชีวิต
+        </div>
+    </div>
+
+    <script>
+        Chart.register(ChartDataLabels);
+
+        const ctx = document.getElementById('vitKChart').getContext('2d');
+        new Chart(ctx, {
+            type: 'bar',
+            data: {
+                labels: ['ต.ค. 67', 'พ.ย. 67', 'ธ.ค. 67', 'ม.ค. 68', 'ก.พ. 68', 'มี.ค. 68', 'เม.ย. 68', 'พ.ค. 68', 'มิ.ย. 68', 'ก.ค. 68', 'ส.ค. 68', 'ก.ย. 68'],
+                datasets: [{
+                    label: 'จำนวนเคส',
+                    data: [5, 9, 4, 10, 3, 5, 4, 6, 3, 3, 2, 1], 
+                    backgroundColor: 'rgba(59, 130, 246, 0.6)',
+                    borderColor: 'rgba(59, 130, 246, 1)',
+                    borderWidth: 1,
+                    borderRadius: 4
+                }]
+            },
+            options: {
+                responsive: true,
+                maintainAspectRatio: false,
+                layout: { padding: { top: 20 } },
+                plugins: {
+                    legend: { display: false },
+                    datalabels: {
+                        anchor: 'end', align: 'top', color: '#4b5563',
+                        font: { weight: 'bold', family: 'Sarabun' },
+                        formatter: (val) => val
+                    }
+                },
+                scales: {
+                    y: { beginAtZero: true, ticks: { stepSize: 2 } },
+                    x: { ticks: { font: { family: 'Sarabun' } } }
+                }
+            }
+        });
+
+        // Helper function to mask HN to show only first 2 digits + xxx
+        function maskHN(text) {
+            // Regex to find "HN XXXXX" and replace with "HN XXxxx"
+            return text.replace(/HN\s?(\d{2})\d+/g, 'HN $1xxx');
+        }
+
+        const preventableData = [
+            ["กลุ่ม 1: ปฏิกิริยาระหว่างยา (Drug Interactions)", "นางจันทร์สวย (HN 52626)", "ได้รับ Amiodarone ทั้งที่ INR สูง นำไปสู่เลือดออกในสมองเสียชีวิต", "I", "ระบบ IT Hard-lock ห้ามสั่ง Amiodarone หาก INR > 3"],
+            ["", "นายพิศ (HN 64407)", "ได้รับ Augmentin (วินิจฉัยแรกเป็น Cellulitis) จนเกิด Hematoma ใหญ่ 15cm", "F", "High Alert Warning เมื่อสั่ง Augmentin ในผู้ป่วย Warfarin"],
+            ["", "นายจะอื่อ (HN 71049)", "ได้รับยาฆ่าเชื้อ Metronidazole จนถ่ายเป็นเลือดสด (Major GI Bleed) INR 10.37", "F", "ลด Dose Warfarin ล่วงหน้า 30-50% เมื่อเริ่ม Metronidazole"],
+            ["", "น.ส.มาลี (HN 120045)", "ได้รับยาฆ่าเชื้อรา Fluconazole จนปัสสาวะเป็นเลือด (INR 6.69)", "F", "Alert ระบบแจ้งเตือน Drug Interaction ระดับรุนแรง"],
+            ["", "นางสมศรี (HN 110480)", "ได้รับ Roxithromycin (Macrolide) จนค่า INR 7.42 และปัสสาวะเป็นเลือด", "F", "หลีกเลี่ยง Macrolide หรือเจาะ INR ถี่ขึ้น"],
+            ["", "นายเกียรติศักดิ์ (HN 3871)", "ภาวะ Sepsis ได้ยา Tazocin ทำให้ INR 9.62", "E", "Sepsis Protocol: ต้องเจาะ INR ทุก 24-48 ชม. ช่วงวิกฤต"],
+            ["", "นางจันทร์ (HN 070012)", "หยุดยา Rifampicin (TB) แล้ว INR ดีดกลับ (Rebound) จนเลือดออก", "E", "Alert เมื่อมีการหยุด (D/C) ยาที่เป็น Enzyme Inducer"],
+            ["", "นายประสงค์ (HN 340034)", "ได้รับ Corticosteroids หลัง D/C จน INR 8.77", "E", "นัดเจาะ INR เร็วขึ้นเมื่อมีการใช้ Steroids ขนาดสูง"],
+            ["", "นางสุดา (HN 090056)", "เริ่มยา Warfarin ซ้ำเร็วเกินไปในคนไข้ Triple Therapy จนเลือดออก", "E", "เกณฑ์ Restart ยาที่เป็นมาตรฐานสำหรับคนไข้โรคหัวใจ"],
+            ["กลุ่ม 2: ความคลาดเคลื่อนทางยา (Medication Errors)", "นายดวงทิพย์ (HN 63508)", "สับสนเม็ดยา (สลับกับยาไทรอยด์) จน INR > 180 (วัดไม่ได้)", "E", "แยกสีซองยา / ใช้ฉลากรูปภาพเม็ดยาจริง"],
+            ["", "นางน้อย (HN 030091)", "กินยาผิด (กินทุกวันแทนวันเว้นวัน) จน INR 9.07", "E", "ใช้ตลับแบ่งยา (Pill Box) และให้ญาติกำกับการกิน"],
+            ["", "นายชูชาติ (HN 110022)", "กินยาผิด (ไม่หักครึ่งเม็ดตามสั่ง) จนเลือดกำเดาไหลไม่หยุด", "E", "เลี่ยงการสั่งยาที่ต้องหักเม็ด (ใช้ขนาดยาอื่นแทน)"],
+            ["", "นางยุพิน (HN 140033)", "จำขนาดยาผิด (กิน 2 เม็ดแทน 1.5) จนปัสสาวะเป็นเลือด", "F", "ใช้เทคนิค Teach-back ให้คนไข้สาธิตวิธีการกินยา"],
+            ["", "นายดำรง (HN 410044)", "ญาติป้อนยาซ้ำเพราะไม่มั่นใจ จน INR 6.1", "E", "ทำตารางติ๊กยา (Checklist) รายวันให้ญาติ"],
+            ["", "นายพรม (HN 20829)", "ดื่มสุราต่อเนื่อง จนเลือดออกไรฟัน INR 7.4", "E", "คัดกรองพฤติกรรมการดื่มแอลกอฮอล์ในคลินิก Warfarin"],
+            ["", "นางกิมลั้ง (HN 040066)", "กินส้มเขียวหวานปริมาณมาก (Food Interaction) จน INR 3.73", "E", "คู่มืออาหารที่ควรเลี่ยงในผู้ป่วย Warfarin"],
+            ["", "นายมั่น (HN 380077)", "ภาวะขาดสารอาหาร (Starvation) ทำให้โปรตีนต่ำ ยาออกฤทธิ์แรงขึ้น INR 6.22", "E", "คัดกรองโภชนาการในผู้ป่วยสูงอายุ"],
+            ["กลุ่ม 3: ระบบสั่งการรักษา (System/Order Issues)", "นายผวน (HN 540088)", "สั่ง Vit K แก้ไข INR แต่ 'ไม่สั่งหยุด Warfarin' (Gas & Brake)", "E", "Order Set: ให้ Auto-Hold Warfarin เมื่อสั่ง Vit K"],
+            ["", "นางสายหยุด (HN 550099)", "สั่ง Vit K แต่ 'ไม่สั่งหยุด Warfarin' ทำให้ INR ไม่ลดลง", "E", "ระบบ Double Check ในใบสั่งยา IPD"],
+            ["", "นายสนิท (HN 370010)", "คำสั่งยาขัดแย้งกันในใบสั่งยาเดียว (สั่งทั้ง Vit K และ Warfarin)", "E", "Medication Reconciliation โดยเภสัชกรหอผู้ป่วย"],
+            ["", "นายบุญส่ง (HN 505310)", "ฉีด Vit K 10 mg IV ในเคส INR < 5 (Over-treatment)", "E", "Guideline Alert (ใช้ Oral Vit K ก่อนถ้าไม่มีเลือดออก)"],
+            ["", "นายพร้อม (HN 400032)", "เริ่มยาขนาดปกติ (Initial Dose) ในผู้สูงอายุที่มีโรคหัวใจ จน INR 9.99", "E", "Low-dose Initiation Protocol สำหรับกลุ่มเสี่ยงสูง"],
+            ["", "นางประไพ (HN 510043)", "เริ่มยาขนาดปกติในผู้สูงอายุผอมแห้ง จน INR 9.99", "E", "ปรับขนาดยาเริ่มต้นตามน้ำหนักและอายุ"],
+            ["", "นายล้วน (HN 320054)", "ผู้ป่วย 90 ปี เริ่มยาขนาดปกติ จนเลือดออกเหงือกและจ้ำเลือด", "E", "Geriatric Protocol: Start low, Go slow"],
+            ["", "นายแก้ว (HN 300065)", "ให้ Vit K เตรียมผ่าตัดทั้งที่ INR ไม่สูงมาก ทำให้เกิดลิ่มเลือดอุดตันซ้ำ", "E", "Pre-op Warfarin Management Checklist"],
+            ["กลุ่ม 4: การวินิจฉัย/หัตถการ (Diagnostic/Procedural)", "นางสวย (HN 480076)", "วินิจฉัยผิดเป็น Cellulitis ทั้งที่เป็น Hematoma จนรักษาล่าช้า", "F", "Clinical Guideline: สงสัย Hematoma ก่อนเสมอถ้ากิน Warfarin"],
+            ["", "นายยอด (HN 492087)", "วินิจฉัยผิดเป็นท้องเสีย (จริงคือเลือดออกในลำไส้) จนช็อก", "F", "Protocol: ปวดท้องในคนไข้ Warfarin ต้องเจาะ INR ทุกราย"],
+            ["", "นายกล้า (HN 430098)", "CT อ่านเป็นฝี (Abscess) แต่เจาะออกมาเป็นก้อนเลือดรุนแรง", "F", "แพทย์รังสีต้องทราบประวัติการกินยา Warfarin ของผู้ป่วย"],
+            ["", "นางเพ็ญ (HN 441009)", "ทำหัตถการฉีดเข้าข้อ (Joint Injection) โดยไม่เช็ค INR จนข้อบวมเลือด", "E", "Policy: No INR, No Needle (ห้ามแทงเข็มถ้าไม่รู้ค่า INR)"],
+            ["", "นายจันตา (HN 33537)", "ไปนวดขาด้วยน้ำมันจนเกิดก้อนเลือดขนาดใหญ่ (Hematoma)", "E", "สุขศึกษา: ห้ามนวด ห้ามบีบเค้นกล้ามเนื้อรุนแรง"],
+            ["", "น.ส.สุบิน (HN 51828)", "ได้รับอุบัติเหตุเล็กน้อยแต่เลือดออกไม่หยุดเพราะ INR สูง", "E", "การปฐมพยาบาลเบื้องต้นเมื่อเกิดบาดแผลในผู้ป่วย Warfarin"],
+            ["", "นายบุญล้ำ (HN 191048)", "เกิดภาวะแทรกซ้อนจากการเจาะเลือดซ้ำซ้อนจนเกิดจ้ำเลือด", "E", "รวมรอบการเจาะเลือดเพื่อลดความถี่ในการแทงเข็ม"]
+        ];
+
+        const recurrentData = [
+            ["1. นายบุญล้ำ (HN 191048)", "4 ครั้ง", "1) ต.ค. เลือดออกในหู<br>2) พ.ย. INR แกว่งซ้ำซาก<br>3) 7 ม.ค. Pneumonia + ยาตีกัน<br>4) 20 ม.ค. Sepsis + ยาตีกัน", "แต่งตั้ง Case Manager ดูแลรายบุคคล / ระบบเฝ้าระวังยาตีกัน"],
+            ["2. นายพรม (HN 20829)", "2 ครั้ง", "1) 6 พ.ค. เลือดออกไรฟัน (ดื่มสุราต่อเนื่อง)<br>2) 10 มิ.ย. ปวดท้องและเลือดออก (INR 13)", "ส่งศูนย์บำบัดแอลกอฮอล์ / ประเมินประวัติการกินยาซ้ำ"],
+            ["3. นายพิศ (HN 64407)", "2 ครั้ง", "1) ก.ค. จ้ำเลือดตามตัว (ช่วงเริ่มยา)<br>2) ส.ค. ขาบวมรุนแรง (ได้รับ Augmentin ผิด)", "สร้างระบบ High Alert Warning ในหน้าจอสั่งยาฆ่าเชื้อ"],
+            ["4. นางจันทร์สวย (HN 52626)", "2 ครั้ง", "1) พ.ย. INR 5.69 (สัญญาณเตือน)<br>2) มี.ค. ได้ Amiodarone -> <span class='highlight-danger'>เสียชีวิต</span>", "IT Hard-lock ระบบสั่ง Amiodarone ร่วมกับ Warfarin"],
+            ["5. นางบัวเลียว (HN 52108)", "2 ครั้ง", "1) พ.ย. INR 10 (ปฏิเสธการ Admit)<br>2) ส.ค. เลือดออกในท้องรุนแรง (INR >10)", "ระบบเยี่ยมบ้าน (Home Ward) กรณีคนไข้กลุ่มเสี่ยงปฏิเสธรักษา"],
+            ["6. นายทวี (HN 68875)", "2 ครั้ง", "1) เม.ย. INR 14 (หลังออกจาก รพ.)<br>2) พ.ค. ถ่ายเป็นเลือดสด -> <span class='highlight-danger'>เสียชีวิต</span>", "ปรับปรุง Discharge Plan: ต้องเจาะ INR ภายใน 7 วันหลัง D/C"],
+            ["7. นางลำใย (HN 6137)", "2 ครั้ง", "1) พ.ย. INR 7.2 (ได้ยาฆ่าเชื้อ)<br>2) ธ.ค. ล้มหัวกระแทก (กินยาผิดขนาด)", "ให้ผู้ดูแลกำกับการกินยา (Direct Observed Therapy)"],
+            ["8. นายดวงทิพย์ (HN 63508)", "2 ครั้ง", "1) ธ.ค. ภาวะ Thyroid Storm ทำให้ INR สูง<br>2) มี.ค. INR > 180 (กินยาผิดสลับกับยาไทรอยด์)", "แยกสีซองบรรจุยา Warfarin และยา Thyroid ให้ต่างกันชัดเจน"],
+            ["9. น.ส.สุบิน (HN 51828)", "2 ครั้ง", "1) เม.ย. INR 5.5<br>2) พ.ค. INR 4.8 (หลังภาวะ Stroke)", "จัดเข้าคลินิก Warfarin ติดตามความถี่สูง (Weekly)"],
+            ["10. นายจันทา (HN 33537)", "2 ครั้ง", "1) พ.ย. INR 7.6 (Consult จาก PCU)<br>2) พ.ย. INR 8.1 (เกิด Over-response)", "พัฒนาระบบปรึกษาทางไกล (Tele-consult) ระหว่าง PCU และ รพ."],
+            ["11. นายเกียรติศักดิ์ (HN 3871)", "2 ครั้ง", "1) ก.พ. ภาวะ Sepsis ทำให้ INR 4.6<br>2) พ.ค. ภาวะ Sepsis ทำให้ INR 3.4", "Sepsis Protocol: ปรับขนาดยา Warfarin ลงทันทีเมื่อมีไข้สูง"]
+        ];
+
+        function calculateGroupCounts(data) {
+            const counts = {};
+            let currentGroup = "";
+            data.forEach(row => {
+                if (row[0]) { currentGroup = row[0]; counts[currentGroup] = 0; }
+                if (currentGroup) counts[currentGroup]++;
+            });
+            return counts;
+        }
+
+        function renderTable1() {
+            const tbody = document.getElementById('table1-body');
+            const groupCounts = calculateGroupCounts(preventableData);
+            preventableData.forEach(row => {
+                const tr = document.createElement('tr');
+                let groupHtml = "";
+                const groupName = row[0];
+                if (groupName) groupHtml = `<span class="font-bold text-blue-800">${groupName}</span><br><span class="text-xs text-gray-500">(รวม ${groupCounts[groupName]} ราย)</span>`;
+                
+                let details = row[2].replace("เสียชีวิต", "<span class='highlight-danger'>เสียชีวิต</span>");
+                // Apply HN masking to the name column
+                let maskedName = maskHN(row[1]);
+
+                tr.innerHTML = `
+                    <td class="${groupName ? 'bg-blue-50' : ''}">${groupHtml}</td>
+                    <td class="font-bold text-gray-800">${maskedName}</td>
+                    <td class="text-gray-700">${details}</td>
+                    <td class="text-center"><span class="severity-badge sev-${row[3]}">${row[3]}</span></td>
+                    <td class="text-blue-600 italic font-medium">${row[4]}</td>
+                `;
+                tbody.appendChild(tr);
+            });
+        }
+
+        function renderTable2() {
+            const tbody = document.getElementById('table2-body');
+            recurrentData.forEach(row => {
+                const tr = document.createElement('tr');
+                // Apply HN masking to the name column
+                let maskedName = maskHN(row[0]);
+                
+                tr.innerHTML = `
+                    <td class="font-bold text-gray-800">${maskedName}</td>
+                    <td class="text-center font-bold text-lg text-blue-600">${row[1]}</td>
+                    <td class="text-sm py-3">${row[2]}</td>
+                    <td class="text-green-700 font-medium">${row[3]}</td>
+                `;
+                tbody.appendChild(tr);
+            });
+        }
+        
+        function exportToWord() {
+            const reportClone = document.getElementById('report-content').cloneNode(true);
+            const dashboard = reportClone.querySelector('#dashboard-section');
+            if (dashboard) dashboard.remove();
+            const htmlContent = `<html><head><meta charset='utf-8'><style>body { font-family: 'Sarabun', 'Arial'; font-size: 14pt; } table { width: 100%; border-collapse: collapse; } td, th { border: 1px solid black; padding: 5px; text-align: left; } th { background-color: #f3f4f6; }</style></head><body>${reportClone.innerHTML}</body></html>`;
+            const blob = new Blob(['\ufeff', htmlContent], { type: 'application/msword' });
+            const url = URL.createObjectURL(blob);
+            const link = document.createElement('a');
+            link.href = url; link.download = 'Warfarin_Trigger_Tool_Report.doc';
+            document.body.appendChild(link); link.click(); document.body.removeChild(link);
+        }
+
+        renderTable1();
+        renderTable2();
+    </script>
+</body>
+</html>
